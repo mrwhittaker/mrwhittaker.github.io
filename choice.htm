@@ -1,0 +1,1127 @@
+<html>
+<head><meta name="author" content="Created with Hot Potatoes by Half-Baked Software, registered to alan whittaker."></meta><meta name="keywords" content="Hot Potatoes, Half-Baked Software, Windows, University of Victoria"></meta>
+<title>
+Romeo & Juliet Quiz 1
+</title>
+
+<style type="text/css">
+
+body{
+	font-family: Geneva,Arial;
+	background-color: #ffffff;
+	color: #400040;
+ 
+	margin-right: 5%;
+	margin-left: 5%;
+}
+
+p{
+	text-align: justify;
+	margin: 0px;
+}
+
+.ExerciseTitle{
+	text-align: center;
+	font-size: larger;
+}
+
+.ExerciseSubtitle{
+	text-align: center;
+	font-size: normal;
+	text-align: center;
+}
+
+span.Instructions{
+
+}
+
+.QuestionText{
+	font-size: smaller;
+	margin: 0px;
+	padding: 0px;
+}
+
+.AnswerText{
+	font-size: smaller;
+	margin: 0px;
+	padding: 0px;
+}
+
+.QNum{
+	font-weight: bold;
+}
+
+.FeedbackText{
+
+}	
+
+div.Feedback {
+	background-color: #ffffff;
+	left: 1px;
+	top: 33%;
+	z-index: 1;
+	border-style: solid;
+	border-width: 1px;
+	padding: 5px;
+	text-align: center;
+	color: #0000a0;
+	position: absolute;
+	display: none;
+	font-size: smaller;
+}
+
+div.Titles{
+	padding-top: 10px;
+	text-align: center;
+	margin-bottom: 4px;
+	color: #0000a0;
+}
+
+table#ExTable{
+	padding: 0px;
+	margin: 0px;
+}
+
+div.ExerciseDiv{
+	color: #400040;
+}
+
+div.StdDiv{
+	background-color: #ff80c0;
+	text-align: center;
+	font-size: smaller;
+	color: #400040;
+	padding: 8px;
+	border-style: solid;
+	border-width: 1px 1px 1px 1px;
+	border-color: #400040;
+	margin: 1px;
+}
+
+div.FunctionButtonBar{
+	background-color: #ff80c0;
+	text-align: center;
+}
+
+span.FunctionButton {
+	font-size: smaller;
+	background-color: #ff80c0;
+	color: #400040;
+	text-align: center;
+	display: block;
+	border-style: solid;
+	border-color: #ff80c0;
+	border-width: 2px;
+	padding: 3px 6px 3px 6px;
+	cursor: pointer;
+	cursor: hand;	
+	margin: auto;	
+}
+
+div.NavButtonBar{
+	background-color: #8000ff;
+	text-align: center;
+	padding: 1px;
+}
+
+div.NavButtonBar span {
+	font-size: smaller;
+	display: block;
+	border-style: solid;
+	border-color: #8000ff;
+	border-width: 2px;
+	padding: 2px 2px 2px 2px;
+	color: #000000;
+	cursor: pointer;
+	cursor: hand;		
+}
+
+a{
+	color: #0000ff;
+}
+
+a: visited{
+	color: #0000cc;
+}
+
+a:hover{
+	color: #0000ff;
+}
+
+</style>
+
+
+<script language="javascript" type="text/javascript">
+
+//<![CDATA[
+
+<!--
+
+// BrowserCheck Object
+
+
+function BrowserCheck() {
+	var b = navigator.appName
+	this.mac = (navigator.appVersion.indexOf('Mac') != -1)
+	if (b=="Netscape") this.b = 'ns'
+	else if (b=="Microsoft Internet Explorer") this.b = 'ie'
+	else this.b = b
+	this.version = navigator.appVersion
+	this.v = parseInt(this.version)
+	this.ns = (this.b=="ns" && this.v>=5)
+	this.ns5 = (this.b=="ns" && this.v==5)
+	this.ns6 = (this.b=="ns" && this.v==5)
+	this.ie = (this.b=="ie" && this.v>=4)
+	this.ie4 = (this.version.indexOf('MSIE 4')>0)
+	this.ie5 = (this.version.indexOf('MSIE 5')>0)
+	if (this.mac) this.ie = this.ie5
+	this.ie5mac = (this.ie5 && this.mac);
+	this.min = (this.ns||this.ie)
+}
+
+is = new BrowserCheck();
+
+if ((is.min == false)||(is.ie5mac)){
+	alert('Your browser can\'t handle this page. You need NS6 or IE5 on Windows, or NS6 on Mac.');
+//	history.back();
+}
+
+function PageDim(){
+//Get the page width and height
+	this.W = 600;
+	this.H = 400;
+	if (is.ns) this.W = window.innerWidth;
+	if (is.ie) this.W = document.body.clientWidth;
+	if (is.ns) this.H = window.innerHeight;
+	if (is.ie) this.H = document.body.clientHeight;
+}
+
+var pg = null;
+
+function SuppressBackspace(e){ 
+	 if (is.ns) {
+		thisKey = e.keyCode;
+	}
+	else {
+		thisKey = window.event.keyCode;
+	}
+
+var Suppress = false;
+
+//Hide the feedback window if showing
+	if (thisKey == 13){
+		if (document.getElementById('FeedbackDiv').style.display != 'none'){
+			HideFeedback();
+			Suppress = true;
+		}
+	}
+
+	if (thisKey == 8) {
+		Suppress = true;
+	}
+
+	if (Suppress == true){
+		if (is.ie){
+			window.event.returnValue = false;	
+			window.event.cancelBubble = true;
+		}
+		else{
+			e.preventDefault();
+		}
+	}
+}
+
+var NavLightColor = '#bf7fff';
+var NavShadeColor = '#40007f';
+var NavBarColor = '#8000ff';
+var FuncLightColor = '#ffbfdf';
+var FuncShadeColor = '#7f4060';
+var ExBGColor = '#ff80c0';
+
+function NavBtnOver(Btn){
+	Btn.style.padding = '1px 3px 3px 1px';
+	Btn.style.borderLeftColor = NavLightColor;
+	Btn.style.borderTopColor = NavLightColor;
+	Btn.style.borderRightColor = NavShadeColor;
+	Btn.style.borderBottomColor = NavShadeColor;
+}
+
+function NavBtnOut(Btn){
+	Btn.style.borderColor = NavBarColor;
+	Btn.style.padding = '2px 2px 2px 2px';
+}
+
+function NavBtnDown(Btn){
+	Btn.style.borderLeftColor = NavShadeColor;
+	Btn.style.borderTopColor = NavShadeColor;
+	Btn.style.borderRightColor = NavLightColor;
+	Btn.style.borderBottomColor = NavLightColor;
+	Btn.style.padding = '3px 1px 1px 3px';
+}
+
+function FuncBtnOver(Btn){
+	Btn.style.padding = '2px 7px 4px 5px';
+	Btn.style.borderLeftColor = FuncLightColor;
+	Btn.style.borderTopColor = FuncLightColor;
+	Btn.style.borderRightColor = FuncShadeColor;
+	Btn.style.borderBottomColor = FuncShadeColor;
+}
+
+function FuncBtnOut(Btn){
+	Btn.style.borderColor = '#ff80c0';
+	Btn.style.padding = '3px 6px 3px 6px';
+}
+
+function FuncBtnDown(Btn){
+	Btn.style.borderLeftColor = FuncShadeColor;
+	Btn.style.borderTopColor = FuncShadeColor;
+	Btn.style.borderRightColor = FuncLightColor;
+	Btn.style.borderBottomColor = FuncLightColor;
+	Btn.style.padding = '4px 5px 2px 7px';
+}
+
+var topZ = 100;
+
+var CurrQNum = 0;
+var ALetters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+var CorrectIndicator = ':-)';
+var IncorrectIndicator = 'X';
+var YourScoreIs = 'Your score is ';
+var Tries = 0;
+var CorrectChoices = 0;
+var ContinuousScoring = true;
+var CorrectFirstTime = 'Questions answered correctly first time: ';
+var ShuffleQs = false;
+var ShuffleAs = false;
+var DefaultRight = 'Correct!';
+var DefaultWrong = 'Sorry! Try again.';
+var QsToShow = 14;
+var ReadingURL = '[ReadingURL]';
+var Score = 0;
+var TempReading = '';
+var EraseFeedback = false;
+
+
+
+var QButtonsOpener = '<table border="0" cellpadding="10" align="center">';
+QButtonsOpener += '<tr><td align="center" valign="middle">';
+QButtonsOpener += '<span class="FunctionButton" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOver(this)" onclick="ChangeQ(-1)">&nbsp;&lt;=&nbsp;</span>';
+QButtonsOpener += '</td><td align="center" valign="middle"><span class="QNum">';
+var QButtonsCloser = '</span></td><td align="center" valign="middle">';
+QButtonsCloser += '<span class="FunctionButton" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOver(this)" onclick="ChangeQ(1)">&nbsp;=&gt;&nbsp;</span>';
+QButtonsCloser += '</td></tr></table>';
+
+var TableOpener = '<form name="QForm">';
+TableOpener += '<table border="0" align="center">';
+var QRow = '<tr><td valign="top" align="right"><span class="QNum">[QNumber].&nbsp;&nbsp;</span></td>';
+QRow += '<td colspan="3" valign="top"> <div class="QuestionText">[Question]</div><br />&nbsp;';
+QRow += '</td></tr>';
+
+var ARow = '<tr><td colspan="3"><table border="0" cellpadding="0" cellspacing="5">';
+ARow += '<tr><td></td><td valign="middle" align="right"><span id="FB_[QNum]_[ANum]">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>';
+ARow += '<td valign="middle"><span class="FunctionButton" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOver(this)" onclick="CheckAnswer([QNum],[ANum])">&nbsp;[ALetter]&nbsp;</span></td>';
+
+ARow += '<td><span class="AnswerText">[Ans]</span></td></tr>';
+ARow += '</table></td></tr>';
+
+var MARow = '<tr><td></td><td valign="top" colspan="3"><input type="checkbox" name="A_[QNum]_[ANum]" value="[Correct]"></input>';
+MARow += '<span class="AnswerText">[Ans]</span></td></tr>';
+
+
+var CheckButton = '<tr><td align="center" colspan="4"><table border="0"><tr><td>';
+CheckButton += '<span class="FunctionButton" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOver(this)" onclick="CheckMulti([QNum])">&nbsp;Check&nbsp;</span>';
+CheckButton += '</td></tr></table></td></tr>';
+
+TableCloser = '</table></form>';
+
+function ReduceItems(){
+	var ItemToDump=0;
+	var j=0;
+	while (I.length > QsToShow){
+		ItemToDump = Math.floor(I.length*Math.random());
+		for (j=ItemToDump; j<(I.length-1); j++){
+			I[j] = I[j+1];
+		}
+		I.length = I.length-1;
+	}
+}
+
+function Shuffle(InArray){
+	Temp = new Array();
+	var Len = InArray.length;
+
+	var j = Len;
+
+	for (var i=0; i<Len; i++){
+		Temp[i] = InArray[i];
+	}
+
+	for (i=0; i<Len; i++){
+		Num = Math.floor(j  *  Math.random());
+		InArray[i] = Temp[Num];
+
+		for (var k=Num; k < j; k++) {
+			Temp[k] = Temp[k+1];
+		}
+		j--;
+	}
+	return InArray;
+}
+
+function WriteFeedback(Feedback){
+	var Output = Feedback + '<br /><br />';
+	document.getElementById('FeedbackContent').innerHTML = Output;
+	var FDiv = document.getElementById('FeedbackDiv');
+//Calculate and set its left setting
+	topZ++;
+	FDiv.style.zIndex = topZ;
+
+//Position the feedback div
+	pg = new PageDim();
+	FDiv.style.left = Math.floor(pg.W/3) + 'px';
+	FDiv.style.width = Math.floor(pg.W/3) + 'px';
+//Set the top again in case the window has been resized
+	if (is.ns){
+		FDiv.style.top = Math.floor(pg.H/3) + window.pageYOffset + 'px';
+	}
+	else{
+		FDiv.style.top = Math.floor(pg.H/3) + document.body.scrollTop + 'px';
+	}
+	FDiv.style.display = 'block';
+
+
+}
+
+function HideFeedback(){
+	document.getElementById('FeedbackContent').innerHTML = '';
+	document.getElementById('FeedbackDiv').style.display='none';
+}
+
+function WriteToInstructions(Feedback) {
+	Feedback = '<span class="FeedbackText">' + Feedback + '</span>';
+	document.getElementById('InstructionsDiv').innerHTML = Feedback;
+
+}
+
+function WriteScore(Feedback) {
+	Feedback = '<span class="FeedbackText">' + Feedback + '</span>';
+	document.getElementById('ScoreDiv').innerHTML = Feedback;
+
+}
+
+
+
+
+function StartUp(){
+	if (is.ns){
+		window.addEventListener('keypress',SuppressBackspace,false);
+	}
+	else{
+		if ((is.min == true)&&(is.ie5mac == false)){
+			document.attachEvent('onkeydown',SuppressBackspace);
+			window.attachEvent('onkeydown',SuppressBackspace);
+		}
+	}
+
+
+
+
+
+//Reduce array if required
+	if (QsToShow < I.length){
+		ReduceItems();
+	}
+
+//Shuffle stuff if required
+
+	if (ShuffleQs == true){
+		I = Shuffle(I);
+	}
+
+	if (ShuffleAs == true){
+		for (var i=0; i<I.length; i++){
+			I[i][1] = Shuffle(I[i][1]);
+		}
+	}
+
+//Create arrays
+	CreateStatusArrays();
+
+
+
+//Show the first question
+	ShowQuestion(CurrQNum);
+}
+
+
+I = new Array();
+
+I[0] = new Array();
+I[0][0]='To which city does Romeo go after his exile from Verona?';
+I[0][1] = new Array();
+I[0][1][0] = new Array();
+I[0][1][0][0]='Padua';
+I[0][1][0][1]='';
+I[0][1][0][2] = 0;
+I[0][1][1] = new Array();
+I[0][1][1][0]='Venice';
+I[0][1][1][1]='';
+I[0][1][1][2] = 0;
+I[0][1][2] = new Array();
+I[0][1][2][0]='Reggio';
+I[0][1][2][1]='';
+I[0][1][2][2] = 0;
+I[0][1][3] = new Array();
+I[0][1][3][0]='Mantua';
+I[0][1][3][1]='';
+I[0][1][3][2] = 1;
+I[0][2] = 0;
+
+I[1] = new Array();
+I[1][0]='Romeo was exiled because:';
+I[1][1] = new Array();
+I[1][1][0] = new Array();
+I[1][1][0][0]='He killed Mercutio';
+I[1][1][0][1]='';
+I[1][1][0][2] = 0;
+I[1][1][1] = new Array();
+I[1][1][1][0]='He killed Tybalt';
+I[1][1][1][1]='';
+I[1][1][1][2] = 1;
+I[1][1][2] = new Array();
+I[1][1][2][0]='He killed Benvolio';
+I[1][1][2][1]='';
+I[1][1][2][2] = 0;
+I[1][1][3] = new Array();
+I[1][1][3][0]='He killed Beckham ';
+I[1][1][3][1]='';
+I[1][1][3][2] = 0;
+I[1][2] = 0;
+
+I[2] = new Array();
+I[2][0]='Who performs Romeo and Juliet\'s marriage ceremony?';
+I[2][1] = new Array();
+I[2][1][0] = new Array();
+I[2][1][0][0]='Friar John';
+I[2][1][0][1]='';
+I[2][1][0][2] = 0;
+I[2][1][1] = new Array();
+I[2][1][1][0]='Friar Tuck';
+I[2][1][1][1]='';
+I[2][1][1][2] = 0;
+I[2][1][2] = new Array();
+I[2][1][2][0]='Friar Visconti';
+I[2][1][2][1]='';
+I[2][1][2][2] = 0;
+I[2][1][3] = new Array();
+I[2][1][3][0]='Friar Laurence';
+I[2][1][3][1]='';
+I[2][1][3][2] = 1;
+I[2][2] = 0;
+
+I[3] = new Array();
+I[3][0]='What does the nurse advise Juliet to do after Romeo leaves?';
+I[3][1] = new Array();
+I[3][1][0] = new Array();
+I[3][1][0][0]='Follow her husband';
+I[3][1][0][1]='';
+I[3][1][0][2] = 0;
+I[3][1][1] = new Array();
+I[3][1][1][0]='Committ suicide';
+I[3][1][1][1]='';
+I[3][1][1][2] = 0;
+I[3][1][2] = new Array();
+I[3][1][2][0]='Marry Paris';
+I[3][1][2][1]='';
+I[3][1][2][2] = 1;
+I[3][1][3] = new Array();
+I[3][1][3][0]='Wait for Romeo in Verona';
+I[3][1][3][1]='';
+I[3][1][3][2] = 0;
+I[3][2] = 0;
+
+I[4] = new Array();
+I[4][0]='Where do Romeo and Juliet first meet?';
+I[4][1] = new Array();
+I[4][1][0] = new Array();
+I[4][1][0][0]='At Capulet\'s feast';
+I[4][1][0][1]='';
+I[4][1][0][2] = 1;
+I[4][1][1] = new Array();
+I[4][1][1][0]='At the  Friar\'s cell';
+I[4][1][1][1]='';
+I[4][1][1][2] = 0;
+I[4][1][2] = new Array();
+I[4][1][2][0]='At Montague\'s feast';
+I[4][1][2][1]='';
+I[4][1][2][2] = 0;
+I[4][1][3] = new Array();
+I[4][1][3][0]='At the Man Utd v Liverpool match';
+I[4][1][3][1]='';
+I[4][1][3][2] = 0;
+I[4][2] = 0;
+
+I[5] = new Array();
+I[5][0]='Who kills Mercutio?';
+I[5][1] = new Array();
+I[5][1][0] = new Array();
+I[5][1][0][0]='Benvolio';
+I[5][1][0][1]='';
+I[5][1][0][2] = 0;
+I[5][1][1] = new Array();
+I[5][1][1][0]='Tybalt';
+I[5][1][1][1]='';
+I[5][1][1][2] = 1;
+I[5][1][2] = new Array();
+I[5][1][2][0]='Romeo';
+I[5][1][2][1]='';
+I[5][1][2][2] = 0;
+I[5][1][3] = new Array();
+I[5][1][3][0]='Don Giovanni';
+I[5][1][3][1]='';
+I[5][1][3][2] = 0;
+I[5][2] = 0;
+
+I[6] = new Array();
+I[6][0]='At the start of the play Romeo is in love with:';
+I[6][1] = new Array();
+I[6][1][0] = new Array();
+I[6][1][0][0]='Juliet';
+I[6][1][0][1]='';
+I[6][1][0][2] = 0;
+I[6][1][1] = new Array();
+I[6][1][1][0]='Rosaline';
+I[6][1][1][1]='';
+I[6][1][1][2] = 1;
+I[6][1][2] = new Array();
+I[6][1][2][0]='Madeline';
+I[6][1][2][1]='';
+I[6][1][2][2] = 0;
+I[6][1][3] = new Array();
+I[6][1][3][0]='Livia';
+I[6][1][3][1]='';
+I[6][1][3][2] = 0;
+I[6][2] = 0;
+
+I[7] = new Array();
+I[7][0]='What, at first, does Juliet claim that Romeo hears the morning after their wedding night?';
+I[7][1] = new Array();
+I[7][1][0] = new Array();
+I[7][1][0][0]='The owl';
+I[7][1][0][1]='';
+I[7][1][0][2] = 0;
+I[7][1][1] = new Array();
+I[7][1][1][0]='The dove';
+I[7][1][1][1]='';
+I[7][1][1][2] = 0;
+I[7][1][2] = new Array();
+I[7][1][2][0]='The lark';
+I[7][1][2][1]='';
+I[7][1][2][2] = 0;
+I[7][1][3] = new Array();
+I[7][1][3][0]='The nightingale';
+I[7][1][3][1]='';
+I[7][1][3][2] = 1;
+I[7][2] = 0;
+
+I[8] = new Array();
+I[8][0]='Which character says the words: "A plague o\' both your houses."';
+I[8][1] = new Array();
+I[8][1][0] = new Array();
+I[8][1][0][0]='Mercutio';
+I[8][1][0][1]='';
+I[8][1][0][2] = 1;
+I[8][1][1] = new Array();
+I[8][1][1][0]='The Prince';
+I[8][1][1][1]='';
+I[8][1][1][2] = 0;
+I[8][1][2] = new Array();
+I[8][1][2][0]='Paris';
+I[8][1][2][1]='';
+I[8][1][2][2] = 0;
+I[8][1][3] = new Array();
+I[8][1][3][0]='Tybalt';
+I[8][1][3][1]='';
+I[8][1][3][2] = 0;
+I[8][2] = 0;
+
+I[9] = new Array();
+I[9][0]='Why was Friar Laurence\'s letter never delivered to Romeo? (Act 5, Scene 2)';
+I[9][1] = new Array();
+I[9][1][0] = new Array();
+I[9][1][0][0]='The messenger fell ill';
+I[9][1][0][1]='';
+I[9][1][0][2] = 0;
+I[9][1][1] = new Array();
+I[9][1][1][0]='The messenger lost his way';
+I[9][1][1][1]='';
+I[9][1][1][2] = 0;
+I[9][1][2] = new Array();
+I[9][1][2][0]='The messenger was confined in a house due to suspected plague ';
+I[9][1][2][1]='';
+I[9][1][2][2] = 1;
+I[9][1][3] = new Array();
+I[9][1][3][0]='The messenger was robbed while on his way';
+I[9][1][3][1]='';
+I[9][1][3][2] = 0;
+I[9][2] = 0;
+
+I[10] = new Array();
+I[10][0]='Who discovers Juliet after she takes the sleeping potion?';
+I[10][1] = new Array();
+I[10][1][0] = new Array();
+I[10][1][0][0]='Lady Capulet';
+I[10][1][0][1]='';
+I[10][1][0][2] = 0;
+I[10][1][1] = new Array();
+I[10][1][1][0]='Paris';
+I[10][1][1][1]='';
+I[10][1][1][2] = 0;
+I[10][1][2] = new Array();
+I[10][1][2][0]='The Nurse';
+I[10][1][2][1]='';
+I[10][1][2][2] = 1;
+I[10][1][3] = new Array();
+I[10][1][3][0]='Her sister';
+I[10][1][3][1]='';
+I[10][1][3][2] = 0;
+I[10][2] = 0;
+
+I[11] = new Array();
+I[11][0]='Who proposes that a gold statue of Juliet be built in Verona?';
+I[11][1] = new Array();
+I[11][1][0] = new Array();
+I[11][1][0][0]='Montague';
+I[11][1][0][1]='';
+I[11][1][0][2] = 1;
+I[11][1][1] = new Array();
+I[11][1][1][0]='Lady Capulet';
+I[11][1][1][1]='';
+I[11][1][1][2] = 0;
+I[11][1][2] = new Array();
+I[11][1][2][0]='Paris<br />';
+I[11][1][2][1]='';
+I[11][1][2][2] = 0;
+I[11][1][3] = new Array();
+I[11][1][3][0]='Romeo';
+I[11][1][3][1]='';
+I[11][1][3][2] = 0;
+I[11][2] = 0;
+
+I[12] = new Array();
+I[12][0]='Why does the Apothecary agree to sell Romeo poison?';
+I[12][1] = new Array();
+I[12][1][0] = new Array();
+I[12][1][0][0]='He is a poor man and needs the money';
+I[12][1][0][1]='';
+I[12][1][0][2] = 1;
+I[12][1][1] = new Array();
+I[12][1][1][0]='He can see that Romeo is passionate';
+I[12][1][1][1]='';
+I[12][1][1][2] = 0;
+I[12][1][2] = new Array();
+I[12][1][2][0]='He is afraid of Romeo';
+I[12][1][2][1]='';
+I[12][1][2][2] = 0;
+I[12][1][3] = new Array();
+I[12][1][3][0]='He is Romeo\'s friend';
+I[12][1][3][1]='';
+I[12][1][3][2] = 0;
+I[12][2] = 0;
+
+I[13] = new Array();
+I[13][0]='Who utters these words: "Oh swear not by the moon, th\' inconstant moon"';
+I[13][1] = new Array();
+I[13][1][0] = new Array();
+I[13][1][0][0]='Mercutio';
+I[13][1][0][1]='';
+I[13][1][0][2] = 0;
+I[13][1][1] = new Array();
+I[13][1][1][0]='Lady Capulet';
+I[13][1][1][1]='';
+I[13][1][1][2] = 0;
+I[13][1][2] = new Array();
+I[13][1][2][0]='Romeo';
+I[13][1][2][1]='';
+I[13][1][2][2] = 0;
+I[13][1][3] = new Array();
+I[13][1][3][0]='Juliet';
+I[13][1][3][1]='';
+I[13][1][3][2] = 1;
+I[13][2] = 0;
+
+
+Status = new Array();
+
+
+function CreateStatusArrays(){
+	for (var x=0; x<I.length; x++){
+		Status[x] = new Array();
+		Status[x][0] = 0; // Question not done yet
+		Status[x][1] = new Array(); //for tracking whether answers chosen
+		for (var y=0; y<I[x][1].length; y++){
+			Status[x][1][y] = '0'; //Answers not chosen yet
+		}
+		Status[x][2] = 0; //Wrong tries at this question so far
+		Status[x][3] = 0; //Score for this question, out of one
+	}
+}
+
+function ReplaceStuff(Token, Replacement, InString){
+	var i = InString.indexOf(Token);
+	var FirstBit = '';
+	var LastBit = '';
+	while (i>-1){
+		FirstBit = InString.substring(0, i);
+		LastBit = InString.substring(i + Token.length, InString.length);	
+		InString = FirstBit + Replacement + LastBit;
+		i = InString.indexOf(Token);
+	}
+	return InString;
+}
+
+function ChangeQ(ChangeBy){
+	var NewNum = CurrQNum + ChangeBy;
+	if ((NewNum >= 0)&&(NewNum<I.length)){
+		CurrQNum = NewNum;
+		ShowQuestion(CurrQNum);
+	}
+}
+
+function BuildQuestion(QNum){
+	if (I[QNum][2] == 0){
+		var Temp = ReplaceStuff('[Question]', I[QNum][0], QRow);
+
+		var AnsRows = '';
+		for (var i=0; i<I[QNum][1].length; i++){
+			TempAns = ARow;
+			TempAns = ReplaceStuff('[ANum]', i, TempAns);
+			TempAns = ReplaceStuff('[ALetter]', ' ' + ALetters.charAt(i) + ' ', TempAns);
+			TempAns = ReplaceStuff('[Ans]', I[QNum][1][i][0], TempAns);
+			TempAns = ReplaceStuff('[Feedback]', I[QNum][1][i][1], TempAns);
+			AnsRows += TempAns;
+		}
+		Temp += AnsRows;
+		Temp = ReplaceStuff('[QNumber]', QNum+1, Temp);
+		Temp = ReplaceStuff('[QNum]', QNum, Temp);
+	}
+	else{
+		var Temp = ReplaceStuff('[Question]', I[QNum][0], QRow);
+		var AnsRows = '';
+		for (var i=0; i<I[QNum][1].length; i++){
+			TempAns = MARow;
+			TempAns = ReplaceStuff('[ANum]', i, TempAns);
+			TempAns = ReplaceStuff('[Correct]', I[QNum][1][i][2], TempAns);
+			TempAns = ReplaceStuff('[Ans]', I[QNum][1][i][0], TempAns);
+			AnsRows += TempAns;
+		}
+		Temp += AnsRows;
+		Temp += CheckButton;
+		Temp = ReplaceStuff('[QNumber]', QNum+1, Temp);
+		Temp = ReplaceStuff('[QNum]', QNum, Temp);
+	}
+	return Temp;
+}
+
+function DisplayExercise(StuffToDisplay){
+	document.getElementById('MainDiv').innerHTML = StuffToDisplay;
+
+}
+
+function ShowQuestion(QNum){
+//First, create the Q number readout at the top
+	var Readout = (QNum+1) + '/' + I.length;
+	while (Readout.length < 7){
+		Readout = ' ' + Readout + ' ';
+	}
+	Readout = QButtonsOpener + Readout + QButtonsCloser;
+
+	var Output = BuildQuestion(QNum);
+
+	Output = TableOpener + Output + TableCloser;
+
+	DisplayExercise(Readout + Output);
+
+//Mark the answers already done
+	for (i=0; i<Status[QNum][1].length; i++){
+		if (Status[QNum][1][i] == 'R'){
+			MarkAnswer(QNum,i,true,false)
+		}
+		if (Status[QNum][1][i] == 'W'){
+			MarkAnswer(QNum,i,false,false)
+		}
+		if (Status[QNum][1][i] == 'C'){
+			CheckCheckbox(QNum,i);
+		}
+	}
+}
+
+function CheckMulti(QNum){
+	var TotWrong = 0;
+	var Output = '';
+	var TotAns = I[QNum][1].length;
+	for (var i=TotAns-1; i>=0; i--){
+//Find any incorrect choices
+
+		var b = eval('document.QForm.A_' + QNum + '_' + i);
+
+		if (b != null){
+//if it's wrong, count it
+			if (b.checked == true){
+				Status[QNum][1][i] = 'C';
+			}
+			else{
+				Status[QNum][1][i] = 'U';
+			}
+			if (((b.checked == true) && (b.value == "0"))||((b.checked == false)&&(b.value == "1"))){
+				TotWrong++;
+			}
+		}				
+	}
+
+	if (TotWrong == 0){
+		Output = DefaultRight;
+	}
+	else{
+		Output = DefaultWrong + '<br />' + (TotAns-TotWrong) + '/' + TotAns;
+	}
+
+//If you haven't tried the question before
+	if (Status[QNum][0] == 0){
+		if (TotWrong > 0){
+			Status[QNum][2]++;
+		}
+		if (TotWrong == 0){
+			Status[QNum][0] = 1;
+//Calculate the score for this question as a floating-point fraction of 1
+			Status[QNum][3] =  ((Status[QNum][1].length - Status[QNum][2]) - 1) / (Status[QNum][1].length - 1);
+//If less than zero, set to zero
+			if (Status[QNum][3] < 0){Status[QNum][3] = 0;}
+		}
+	}
+
+//Check whether the quiz is finished
+	var Finished = true;
+	for (var i=0; i<Status.length; i++){
+		if (Status[i][0] == 0){Finished = false;}
+	}
+
+//Calculate the score if needed
+		
+		
+	if (Status[QNum][0] == 1){
+		if ((Finished==true)||(ContinuousScoring==true)){
+			var DoneQs = 0;
+			var TotalScore = 0;
+			for (var i=0; i<Status.length; i++){
+				if (Status[i][0] == 1){
+					DoneQs++;
+					TotalScore += Status[i][3];
+				}
+			}
+			Score = (Math.floor(100 * (TotalScore/DoneQs)));
+			var CurrScore = YourScoreIs + ' ' + Score + '%.';
+			Output = Output + '<br />' + CurrScore;
+			WriteScore(CurrScore);
+		}
+
+		if (Finished == true){
+			var CFT = 0;
+			for (i=0; i<I.length; i++){
+				if (Status[i][2] == 0){
+					CFT++;
+				}
+			}
+		Output += '<br />' + CorrectFirstTime + CFT + '/' + I.length;
+		WriteToInstructions(Output);
+
+		}
+	}
+
+//Show the feedback
+	if (Output.length > 0){
+		WriteFeedback(Output);
+	}
+}
+
+function CheckAnswer(QNum, ANum){
+	var Output = I[QNum][1][ANum][1];
+
+	if (Output==''){
+		if (I[QNum][1][ANum][2] == 1){
+			Output = DefaultRight;
+		}
+		else{
+			Output = DefaultWrong;
+		}
+	}
+
+//If it's not been previously answered correctly
+	if (Status[QNum][0] == 0){
+//If it's a correct answer
+		if (I[QNum][1][ANum][2] == 1){
+			Status[QNum][0] = 1;//Mark the Q as done
+			Status[QNum][1][ANum] = 'R';
+			MarkAnswer(QNum, ANum, true);
+//Calculate the score for this question as a floating-point fraction of 1
+			var PossibleWrongs = 0;
+			for (var i=0; i<I[QNum][1].length; i++){
+				if (I[QNum][1][i][2] == 0){
+					PossibleWrongs++;
+				}
+			}
+
+			if (PossibleWrongs == 0){PossibleWrongs = 1;}
+
+			Status[QNum][3] = 1 - (Status[QNum][2]/PossibleWrongs);
+
+//If less than zero, set to zero
+			if (Status[QNum][3] < 0){Status[QNum][3] = 0;}
+		}
+		else{
+			if (Status[QNum][1][ANum] != 'W'){
+				Status[QNum][1][ANum] = 'W';
+				MarkAnswer(QNum, ANum, false);
+				Status[QNum][2]++; //increment wrong tries for this Q
+			}
+		}
+	}
+
+//Check whether the quiz is finished
+	var Finished = true;
+	for (var i=0; i<Status.length; i++){
+		if (Status[i][0] == 0){Finished = false;}
+	}
+
+//Calculate the score if needed
+		
+	if (Status[QNum][0] == 1){
+		if ((Finished==true)||(ContinuousScoring==true)){
+			var DoneQs = 0;
+			var TotalScore = 0;
+			for (var i=0; i<Status.length; i++){
+				if (Status[i][0] == 1){
+					DoneQs++;
+					TotalScore += Status[i][3];
+				}
+			}
+			Score = (Math.floor(100 * (TotalScore/DoneQs)));
+			var CurrScore = YourScoreIs + ' ' + Score + '%.';
+			Output = Output + '<br />' + CurrScore;
+			WriteScore(CurrScore);
+		}
+
+		if (Finished == true){
+			var CFT = 0;
+			for (i=0; i<I.length; i++){
+				if (Status[i][2] == 0){
+					CFT++;
+				}
+			}
+		Output += '<br />' + CorrectFirstTime + CFT + '/' + I.length;
+		WriteToInstructions(Output);
+		CurrScore = YourScoreIs + ' ' + Score + '%.';
+		WriteScore(CurrScore);
+
+		}
+	}
+
+//Show the feedback
+	if (Output.length > 0){
+		WriteFeedback(Output);
+	}
+}
+
+function MarkAnswer(QNum, ANum, Right, Done){
+	if (Done == false){
+		var Mark = CorrectIndicator;
+		if (Right == false){Mark = IncorrectIndicator;}
+		document.getElementById('FB_' + QNum + '_' + ANum).innerHTML = Mark;
+	}
+	else{
+		if (Right == false){
+			document.getElementById('FB_' + QNum + '_' + ANum).innerHTML = IncorrectIndicator;
+		}
+		else{
+			document.getElementById('FB_' + QNum + '_' + ANum).innerHTML = CorrectIndicator;
+		}
+	}
+}
+
+function CheckCheckbox(QNum, ANum){
+	if (eval('document.QForm.A_' + QNum + '_' + ANum) != null){
+		eval('document.QForm.A_' + QNum + '_' + ANum).checked = true;
+	}
+}
+
+
+
+
+
+function Blank(){
+	return '<html><body>&copy;Half-Baked Software. Loading...</body></html>';
+}
+
+//-->
+
+//]]>
+
+</script>
+
+
+</head>
+<!-- <body>Fool those dumb ad-inserting ISPs</body> -->
+
+<body onload="StartUp()">
+
+
+
+
+<div class="Titles">
+<span class="ExerciseTitle">Romeo & Juliet Quiz 1</span><br />
+<span class="ExerciseSubtitle">Multiple-choice exercise</span><br />
+</div>
+
+<div class="ExerciseDiv">
+<table id="ExTable" cellspacing="0" cellpadding="0" width="100%">
+
+<tr>
+<td>
+<div id="InstructionsDiv" class="StdDiv">
+<p id="Instructions">Choose the correct answer for each question.</p>
+</div>
+</td>
+</tr>
+
+<tr>
+
+
+<td valign="top">
+<div id="ScoreDiv" class="StdDiv">&nbsp;
+</div>
+
+
+<div id="MainDiv" class="StdDiv">
+
+</div>
+</td>
+</tr>
+
+</table>
+
+</div>
+
+
+
+
+<div class="Feedback" id="FeedbackDiv">
+<div class="FeedbackText" id="FeedbackContent"></div>
+<table border="0" cellpadding="5" align="center" style="background-color: #ff80c0";>
+<tr><td align="center" valign="middle">
+<span class="FunctionButton" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOver(this)" onclick="HideFeedback()">&nbsp;OK&nbsp;</span>
+</td></tr></table>
+</div>
+
+</body>
+
+</html>
